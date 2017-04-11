@@ -1,89 +1,155 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+#!/usr/bin/env python3.5
 
-# C extensions
-*.so
+from tkinter import *
+import parser
 
-# Distribution / packaging
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
+cal = Tk()
+cal.title('Calculator')
+M = 0
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+def multiplication ():
+    var = output.get()
+    no  = int(var)
+    f = 1
+    c = 1
+    counter = no
+    try :
+        while c > 0 :
+            f = f*c
+            c -= 1
+        clear_all()
+        output.insert(0 . f)
+    except Exception:
+        clear_all()
+        output.insert(0 , "Error !")
+def clear_all():
+    output.delete(0, END)
+def user_input(num):
+    global M
+    output.insert(M, num)
+    M +=1
+def get_operation(operator):
+    global M
+    length = len(operator)
+    output.insert(M, operator)
+    M += length
+    
+def undo():
+    var = output.get()
+    if len(var):
+        new_string = var[:-1]
+        print(new_string)
+        clear_all()
+        output.insert(0, new_string)
+    else:
+        clear_all()
+        output.insert(0, "Error, Press Clear")
+def calculator():
+    var = output.get()
+    try:
+        var2 = parser.expr(var).compile()
+        result = eval(var2)
+        clear_all()
+        output.insert(0, result)
+    except Exception:
+        clear_all()
+        display.insert(0, "Error!")
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+cal.columnconfigure(0,pad=3)
+cal.columnconfigure(1,pad=3)
+cal.columnconfigure(2,pad=3)
+cal.columnconfigure(3,pad=3)
+cal.columnconfigure(4,pad=3)
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*,cover
-.hypothesis/
+cal.rowconfigure(0,pad=3)
+cal.rowconfigure(1,pad=3)
+cal.rowconfigure(2,pad=3)
+cal.rowconfigure(3,pad=3)
 
-# Translations
-*.mo
-*.pot
+output = Entry(cal ,font = ("impact", 15 , "italic"))
+output.grid(row = 1, columnspan =6 , sticky = W+E)
 
-# Django stuff:
-*.log
-local_settings.py
+No_one = Button(cal , text = "1", fg= "black", bg = 'brown' , command = lambda : user_input(1), width = 4 , font = ("impact",12 , "italic"))
+No_one.grid(row = 2, column = 0)
 
-# Flask stuff:
-instance/
-.webassets-cache
+No_two = Button(cal , text = "2", fg= "black", bg = 'brown' , command = lambda : user_input(2), width = 4 , font = ("impact",12 , "italic"))
+No_two.grid(row = 2, column = 1)
 
-# Scrapy stuff:
-.scrapy
+No_three = Button(cal , text = "3", fg= "black", bg = 'brown' , command = lambda : user_input(3), width = 4 ,  font = ("impact",12 , "italic"))
+No_three.grid(row = 2, column = 2)
 
-# Sphinx documentation
-docs/_build/
+No_four = Button(cal , text = "4",fg= "black", bg = 'brown', command = lambda : user_input(4), width = 4 , font = ("impact",12 , "italic"))
+No_four.grid(row = 3, column = 0)
 
-# PyBuilder
-target/
+No_five = Button(cal , text = "5", fg= "black", bg = 'brown', command = lambda : user_input(5), width = 4 , font = ("impact",12 , "italic"))
+No_five.grid(row = 3, column = 1)
 
-# IPython Notebook
-.ipynb_checkpoints
+No_six = Button(cal , text = "6",fg= "black", bg = 'brown', command = lambda : user_input(6), width = 4,  font = ("impact",12 , "italic"))
+No_six.grid(row = 3, column = 2)
 
-# pyenv
-.python-version
+No_seven = Button(cal , text = "7",fg= "black", bg = 'brown', command = lambda : user_input(7), width = 4 , font = ("impact",12 , "italic"))
+No_seven.grid(row = 4, column = 0)
 
-# celery beat schedule file
-celerybeat-schedule
+No_eight = Button(cal , text = "8",fg= "black", bg = 'brown', command = lambda : user_input(8),width = 4 , font = ("impact",12 , "italic"))
+No_eight.grid(row = 4, column = 1)
 
-# dotenv
-.env
+No_nine = Button(cal , text = "9",fg= "black", bg = 'brown', command = lambda : user_input(9), width = 4 , font = ("impact",12 , "italic"))
+No_nine.grid(row = 4, column = 2)
 
-# virtualenv
-venv/
-ENV/
+clear = Button(cal, text = "Clear",fg= "black" , bg = "brown" ,command = clear_all , width = 4 , font = ("impact", 13 , "italic"))
+clear.grid(row = 5, column = 0)
 
-# Spyder project settings
-.spyderproject
+zero = Button(cal, text = "0" , fg = "black", bg = "brown" , command = lambda : user_input(0) , width = 4 , font = ("impact" , 12, "italic"))
+zero.grid(row = 5, column = 1)
 
-# Rope project settings
-.ropeproject
+result = Button(cal, text = "=" , fg = "black", bg = "brown" , command = calculator, width = 4 , font = ("impact", 15, "italic"))
+result.grid(row = 5, column = 5)
+
+
+Addition = Button(cal , text = "+",fg ="black" , bg = "brown" , command =  lambda : get_operation("+"),width = 4 , font=("impact", 12 , "italic"))
+Addition.grid(row = 2, column = 3)
+
+Subtraction = Button(cal, text = "-",fg ="black" , bg = "brown" , command =  lambda : get_operation("-"),width = 4 , font=("impact", 12, "italic"))
+Subtraction.grid(row = 3, column = 3)
+
+Multiplication = Button(cal,text = "X",fg ="black" , bg = "brown" , command =  lambda : get_operation("*"),width = 4 , font=("impact", 12 , "italic"))
+Multiplication.grid(row = 4, column = 3)
+
+Division = Button(cal, text = "/",fg ="black" , bg = "brown" , command = lambda :  get_operation("/"),width = 4 , font=("impact", 12 , "italic"))
+Division.grid(row = 5, column = 3)
+
+Modulus = Button(cal, text = "%",fg ="black" , bg = "brown" , command = lambda :  get_operation("%"), width = 4 ,font=("impact", 12 , "italic"))
+Modulus.grid(row = 2, column = 4)
+
+L_bracket = Button(cal, text = "(",fg ="black" , bg = "brown" , command = lambda :  get_operation("("),width = 4 , font=("impact", 12 , "italic"))
+L_bracket.grid(row = 4, column = 4)
+
+R_bracket = Button(cal, text = ")",fg ="black" , bg = "brown" , command = lambda :  get_operation(")"),width = 4 , font=("impact", 12 , "italic"))
+R_bracket.grid(row = 4, column = 5)
+
+Power = Button(cal, text = "^",fg ="black" , bg = "brown" , command = lambda :  get_operation("**"), width = 4 ,font=("impact", 12 , "italic"))
+Power.grid(row = 2, column = 5)
+
+
+click_undo =   Button(cal, text = "Delete",fg ="black" , bg = "brown" , command = undo , width = 6, font=("impact", 12 , "italic"))
+click_undo.grid(row = 5, column = 4)
+
+square = Button(cal, text = "^2",fg ="black" , bg = "brown" , command = lambda: get_operation("**2"),width = 4 , font = ("impact", 12))
+square.grid(row = 3, column = 4)
+
+Complicated = Button(cal, text = "^3",fg ="black" , bg = "brown" , command = lambda: get_operation("**3"),width = 4 , font = ("impact", 12))
+Complicated.grid(row = 3, column = 5)
+
+Dot = Button(cal, text = ".",fg ="black" , bg = "brown" , command = lambda: get_operation("."),width = 4 , font = ("impact", 10))
+Dot.grid(row = 5, column = 2)
+
+cal.mainloop()
+
+
+
+
+
+
+
+
+
